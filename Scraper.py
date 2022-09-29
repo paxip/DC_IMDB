@@ -19,21 +19,13 @@ class Scraper:
         monthly_button = tab_container.find_element(by=By.XPATH, value='//*[@id="a-page"]/div[2]/div[4]/div/a[4]') 
         monthly_button.click()
         time.sleep(3)
-
-        drop_down_menu = driver.find_element(By.CLASS_NAME, 'a-dropdown-container')
-        inner_drop_down_button = drop_down_menu.find_element(By.CLASS_NAME, 'a-button-inner')
-        inner_drop_down_button.click()
-
         
-        
-        #a_tag = driver.find_element(by=By.TAG_NAME, value='a')
-        #by_year_button = drop_down_menu.find_element(By.CLASS_NAME, "a-dropdown-link")
-        #by_year_button.click()
+        drop_down_menu = driver.find_element(By.XPATH, value='//')
+        //*[@id="a-popover-1"]/div
 
+        <span class="a-button-text a-declarative" data-csa-c-func-deps="aui-da-a-dropdown-button" data-csa-c-type="widget" data-csa-interaction-events="click" data-action="a-dropdown-button" aria-hidden="true" data-csa-c-id="632vcy-7gkvzp-terowd-aznnfc" id="a-autoid-0-announce"><span class="a-dropdown-prompt">By Month</span></span>
 
-        
-
-        
+        print(drop_down_menu)
 
         
 Scraper.load_webpage()
