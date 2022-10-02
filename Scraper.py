@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common. by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait, Select
 import time
 
 
@@ -20,12 +21,18 @@ class Scraper:
         monthly_button.click()
         time.sleep(3)
         
-        drop_down_menu = driver.find_element(By.XPATH, value='//')
-        //*[@id="a-popover-1"]/div
+        drop_down_by_year = driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
+        select = Select(drop_down_by_year)
 
-        <span class="a-button-text a-declarative" data-csa-c-func-deps="aui-da-a-dropdown-button" data-csa-c-type="widget" data-csa-interaction-events="click" data-action="a-dropdown-button" aria-hidden="true" data-csa-c-id="632vcy-7gkvzp-terowd-aznnfc" id="a-autoid-0-announce"><span class="a-dropdown-prompt">By Month</span></span>
+        select.select_by_visible_text('By year')
+        time.sleep(3)
 
-        print(drop_down_menu)
+        drop_down_by_month = driver.find_element(by=By.XPATH, value='//select[@id="by-year-navSelector"]')
+        select = Select(drop_down_by_month)
+
+        select.select_by_visible_text('2017')
+        time.sleep(5)
+
 
         
 Scraper.load_webpage()
