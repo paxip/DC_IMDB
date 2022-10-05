@@ -10,13 +10,14 @@ An implementation of an industry grade data collection pipeline that runs scalab
 
 ## Milestone 2: Selecting website
 
-- website selected: https://www.boxofficemojo.com/
+- Website selected: https://www.boxofficemojo.com/
 
 Being a movie lover my curiosity led me to investigate the impact of the covid-19 pandemic on the movie box office revenue from years 2017 to 2022. For this project, I chose to explore the domestic market only (UK). While scoping the imdb website I navigated to its affiliate website: box office mojo an American website that tracks box-office revenue and I chose this website to scrape because the data necessary for this project is presented in a systematic fashion.
 
 ## Milestone 3: Prototype finding links
 
-The focus of this milestone was to find links of the web pages on the https://www.boxofficemojo.com/ website that contain data to be collected for analysis. 
+The focus of this milestone was to find links of the web pages on the https://www.boxofficemojo.com/ website that contain data to be scraped.
+
 Key developments included:
 - Building code using Selenium/chromedriver to get the webpage, navigate to webpage that contains a table organising box office hits for each month of every year from the years 1931 to 2022.
 - Collecting the web links to every monthly box office hit from the years 2017 to 2022 and storing these links in a library. 
