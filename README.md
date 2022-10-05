@@ -21,7 +21,7 @@ The focus of this milestone was to find links of the web pages on the https://ww
 Key developments included:
 - Building code using Selenium/chromedriver to get the webpage, navigate to webpage that contains a table organising box office hits for each month of every year from the years 1931 to 2022.
 - Collecting the web links to all monthly box office hits from the years 2017 to 2022 and storing these links in a library. 
-- Refactoring the code once it was optimised in a class called 'Scraper' and initialising the class using conditional statement if __name == "__main__" so that the code will only run directly.
+- Refactoring the code once it was optimised in a class called 'Scraper' and initialising the class using conditional statement if __name == "__main__" so that the code will only run directly from the file.
 
 For further details about my code please refer to file: 'Scraper.py' located in this respository. 
 
