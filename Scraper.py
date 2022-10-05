@@ -23,27 +23,30 @@ class Scraper:
         monthly_button.click()
         time.sleep(3)
 
-        return self.driver
-
     def get_movie_links(self):
+        drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
+        select = Select(drop_down_list)
+        select.select_by_visible_text('By year')
+        time.sleep(3)
+        
         for year in ('2017','2018','2019','2020','2021','2022'):
             drop_down_by_year = self.driver.find_element(by=By.XPATH, value='//select[@id="by-year-navSelector"]')
             select = Select(drop_down_by_year)
             select.select_by_visible_text(year)
+            link_list = []
             time.sleep(5)
 
             movie_table = self.driver.find_element(by=By.XPATH, value='//*[@id="table"]/div/table[2]/tbody')
             movie_list = movie_table.find_elements(by=By.XPATH, value='//*[@class="a-text-left mojo-field-type-release mojo-cell-wide"]')
-            link_list = []
 
             for movie in movie_list:
                 a_tag = movie.find_element(by=By.TAG_NAME, value='a')
                 link = a_tag.get_attribute('href')
                 link_list.append(link)
 
-            print(f'There are {len(link_list)} movies on this page')
-            print(link_list)
-            return link_list
+          
+        print(link_list)
+        return link_list
 
 
 if __name__ == '__main__':
