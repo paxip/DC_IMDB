@@ -13,7 +13,7 @@ import time
 
 class Scraper:
 
-    def __init__(self, url: str = "https://www.boxofficemojo.com/", driverpath: str = '/Users/apple/Documents/GitHub/DC_Zoopla/chromedriver 5' ):     
+    def __init__(self, url: str = "https://www.boxofficemojo.com/", driverpath: str = '/Applications/chromedriver'):     
         self.service = Service(driverpath)
         self.options = Options()
         self.driver = webdriver.Chrome(options=self.options, service=self.service) 
