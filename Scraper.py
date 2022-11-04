@@ -10,16 +10,6 @@ import os
 import requests
 
 
-
-
-# The class creates a list of movie links for a list of years that you specify, scrapes the movie
-# links from the IMDB website, scrapes the movie name, image data, and text data from the movie links,
-# creates a timestamp for the web scrape, creates a dictionary of the movie name and image and text
-# data, creates a directory called 'raw_data' and then creates a subdirectory called 'box_office_mojo'
-# inside of it, creates a file called 'data.json' inside of the 'box_office_mojo' directory and writes
-# the movie dictionary to it, and finally, creates a directory called 'images' inside of the
-# 'box_office_mojo' directory.
-# The class creates a list of movie links for a list of years that you specify
 class Web_link_scraper:
     '''
     This class scrapes a list of links from the IMDB website for a list of years that you specify and 
@@ -112,24 +102,30 @@ class Web_link_scraper:
         return(self.movie_link_list)    
 
 
-# This class is a child of the Web_link_scraper class. It takes a list of web links and scrapes the
-# data from each link.
-# It scrapes the movie links from the IMDB website, scrapes the movie name, image data, and text data
-# from the movie links, creates a timestamp for the web scrape, creates a dictionary of the movie name
-# and image and text data, creates a directory called 'raw_data' and then creates a subdirectory
-# called 'box_office_mojo' inside of it, creates a file called 'data.json' inside of the
-# 'box_office_mojo' directory and writes the movie dictionary to it, and finally, creates a directory
-# called 'images' inside of the 'box_office_mojo' directory.
-class Data_scraper(Web_link_scraper):
+class Data_scraper(Web_link_scraper):                                                                               
+    '''
+    This class inherits the Web_link_scraper and iterates through each web link in the movie_link_list 
+    scraping relevant data corresponding to each movie.
 
+    Attributes:
+    ----------
+    
+    This is a child class and inherits all attributes in the Web_link scraper class in addition
+    to the attributes listed below.
+    
+    text_data_dictionary : dict
+        Dictionary containing text data for each movie.
 
+    movie_dictionary : dict
+        Dictionary containing all data corresponding to each movie.
+
+    timestamp : int
+        Provides date and time that each movie link is scraped in the format: :%Y-%m-%d %H:%M:%S.  
+    '''
     def __init__(self):
         '''
-        This class inherits the Web
-        
-        scrapes a list of links from the IMDB website for a list of years that you specify and 
-        creates a list of movie links.
-        
+        This function initializes the class by creating a dictionary for the text data, a dictionary for
+        the movie data, and a timestamp.   
         '''
         super().__init__()
         self.text_data_dictionary = {}
@@ -137,7 +133,10 @@ class Data_scraper(Web_link_scraper):
         self.timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 
     def scrape_text_data_from_movie_links(self):
-        '''This function scrapes the text data from the movie links
+        '''
+        This function scrapes text data from the table of values presented on each web page (movie_link) 
+        and forms two lists; category headings and corresponding values. 
+        The zip object passes both lists and yields tuples stored to text_dictionary. 
         
         Returns
         -------
@@ -165,11 +164,18 @@ class Data_scraper(Web_link_scraper):
         return text_dictionary
         
     def scrape_movie_name_and_create_movie_dict(self):
-        '''This function scrapes the movie name from the movie link, creates a timestamp for the web scrape,
-        scrapes the image data, scrapes the text data from the movie links, updates the image and text
-        dictionary with the image link, and updates the movie dictionary with the movie name and image and
-        text dictionary.
-        
+        '''
+        This function iterates through each web link stored in the movie_link_list and calls 
+        relevant functions to: 
+        (ii)    scrape all text data,
+        (iii)   scrape image data,
+        (iv)    record the timestamp for each scrape.
+        The above data is stored in the image_and_text_dictionary.
+
+        The movie-dictionary is created to organise and store all relevant data according 
+        to each movie's name (serving as a unique id).  
+
+        All images in the movie_dictionary are downloaded in order to a directory for preservation.
         '''
         for link in (self.movie_link_list[0:3]):
             self.driver.get(link)
@@ -188,15 +194,17 @@ class Data_scraper(Web_link_scraper):
             self.download_image(movie['image_link'], f'raw_data/box_office_mojo/images/{timestr}_{n}.jpg')   
     
     def create_timestamp_for_web_scrape(self):      
-        '''This function creates a timestamp for the web scrape.
-        
+        '''
+        This function creates a timestamp for the web scrape. 
+
         '''
         time_key = 'timestamp'
         self.category_heading_list.append(time_key)
         self.category_value_list.append(self.timestamp)
 
     def scrape_image_data(self):
-        '''The function scrapes the image data from the IMDB website.
+        '''
+        The function scrapes the image data from the IMDB website.
         
         Returns
         -------
@@ -209,7 +217,8 @@ class Data_scraper(Web_link_scraper):
         return src   
 
     def download_image(self, image_url, fp):
-        '''Downloads an image from a URL and saves it to a file path
+        '''
+        Downloads an image from a URL and saves it to a file path.
         
         Parameters
         ----------
@@ -224,11 +233,11 @@ class Data_scraper(Web_link_scraper):
             handler.write(image_data)
 
     def create_directories_and_download_movie_dict(self):
-        '''It creates a directory called 'raw_data' and then creates a subdirectory called
-        'box_office_mojo' inside of it. Then it creates a file called 'data.json' inside of the
-        'box_office_mojo' directory and writes the movie dictionary to it. Finally, it creates a
-        directory called 'images' inside of the 'box_office_mojo' directory
-        
+        '''
+        Creates a subdirectory called 'box_office_mojo'
+        and writes movie_dictionary to it in JSON format. 
+        Downloaded images are stored in a seperate directory under 'box_office_mojo' called 'images.'    
+        Above is stored under the main directory: 'raw_data.'
         '''
         os.mkdir('raw_data')
         path = os.path.join('raw_data', 'box_office_mojo')
