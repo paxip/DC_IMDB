@@ -192,6 +192,8 @@ class Data_scraper(Web_link_scraper):
         for n, movie in enumerate(self.movie_dictionary.values(),1):
             timestr = self.timestamp
             self.download_image(movie['image_link'], f'raw_data/box_office_mojo/images/{timestr}_{n}.jpg')   
+        
+        self.driver.quit()
     
     def create_timestamp_for_web_scrape(self):      
         '''
@@ -255,3 +257,4 @@ if __name__ == '__main__':
     imdb.click_monthly_button()
     imdb.create_list_of_movie_links(year_list)
     imdb.scrape_movie_name_and_create_movie_dict()
+    
