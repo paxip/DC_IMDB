@@ -21,6 +21,7 @@ class Product:
             >>> small_black_shoes.generate_sku()
             'SHOES-S-BLACK'
         """
+        
         name = self.transform_name_for_sku()
         color = self.transform_color_for_sku()
         return f'{name}-{self.size}-{color}'

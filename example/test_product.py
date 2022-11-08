@@ -1,29 +1,20 @@
 
-from example.product import Product
 import unittest
+from example.cart import ShoppingCart
+from example.product import Product
 
-class ProductTestCase(unittest.TestCase):
-    def test_transform_name(self):
-        small_black_shoes = Product('shoes', 'S', 'black')
-        expected_value = 'SHOES'
-        actual_value = small_black_shoes.transform_name_for_sku()
-        self.assertEqual(expected_value, actual_value)
-    
-    def test_transform_colour_for_sku(self):
-        small_black_shoes = Product('shoes', 'S', 'black')
-        expected_value = 'BLACK'
-        actual_value = small_black_shoes.transform_color_for_sku()
-        self.assertEqual(expected_value, actual_value)
-    
-    def test_generate_sku(self):
-        small_black_shoes = Product('shoes', 'S', 'black')
-        expected_value = 'SHOES-S-BLACK'
-        actual_value = small_black_shoes.generate_sku()
-        self.assertEqual(expected_value, actual_value)
-    
+class ShoppingCartTestCase(unittest.TestCase):
+    def test_add_and_remove_product(self):
+        cart = ShoppingCart()
+        product = Product('Polo', 'S', 'Navy Blue')
+        
+        cart.add_product(product)
+        cart.remove_product(product)
+        # Check if the products attribute is empty
+        # The assertDictEqual check if two dicts are equal
+        self.assertDictEqual({}, cart.products) 
 
-
-unittest.main(argv=[''], verbosity=0, exit=False)
+unittest.main(argv=[''], verbosity=3, exit=False)
 
 
 
