@@ -1,4 +1,6 @@
 from collections import defaultdict
+from example.product import Product
+
 
 
 class ShoppingCart:
@@ -16,5 +18,6 @@ class ShoppingCart:
             del self.products[sku]
 
 if __name__ == "__main__":
-    shoes = Product('Hugo Boss', 11, 'Black')
+    shoes = Product('Hugo Boss', 11, 'Black') 
     print(shoes.generate_sku())
+    
