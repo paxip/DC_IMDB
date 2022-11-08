@@ -14,3 +14,7 @@ class ShoppingCart:
         self.products[sku]['quantity'] -= quantity
         if self.products[sku]['quantity'] == 0:
             del self.products[sku]
+
+if __name__ == "__main__":
+    shoes = Product('Hugo Boss', 11, 'Black')
+    print(shoes.generate_sku())
