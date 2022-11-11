@@ -15,7 +15,6 @@ class WebLinkScraperTestCase(unittest.TestCase):
         self.assertIsNotNone(link_list)
         # Create another test method to check whether the first and last link is equal to what you expect.
 
-        
     def test_scrape_text_data_from_movie_links(self):
         dict = Data_scraper()
         dict.create_text_dictionary()
