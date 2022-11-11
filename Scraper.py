@@ -144,23 +144,28 @@ class Data_scraper(Web_link_scraper):
             A dictionary of the movie's text data.
         
         '''
-        summary_table = self.driver.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
-        summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-summary-values mojo-hidden-from-mobile"]')
-        div_tags = summary_values.find_elements(by=By.XPATH, value='./div[@class="a-section a-spacing-none"]')
-        performance_summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
-        worldwide_values = performance_summary_values.find_element(by=By.XPATH, value='//div[3][@class="a-section a-spacing-none"]')
+        for link in (self.movie_link_list[0:3]):
+            summary_table = self.driver.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
+            summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-summary-values mojo-hidden-from-mobile"]')
+            div_tags = summary_values.find_elements(by=By.XPATH, value='./div[@class="a-section a-spacing-none"]')
+            performance_summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
+            worldwide_values = performance_summary_values.find_element(by=By.XPATH, value='//div[3][@class="a-section a-spacing-none"]')
             
-        worldwide_gross = worldwide_values.find_element(by=By.XPATH, value='span[1]/a').text
-        self.category_heading_list.append(worldwide_gross)
-        international_gross = worldwide_values.find_element(by=By.XPATH, value='span[2]/a/span').text
-        self.category_value_list.append(international_gross)
+            worldwide_gross = worldwide_values.find_element(by=By.XPATH, value='span[1]/a').text
+            self.category_heading_list.append(worldwide_gross)
+            international_gross = worldwide_values.find_element(by=By.XPATH, value='span[2]/a/span').text
+            self.category_value_list.append(international_gross)
             
-        for text in div_tags:
-            category_heading = text.find_element(by=By.XPATH, value='span[1]').text
-            self.category_heading_list.append(category_heading)
-            category_value = text.find_element(by=By.XPATH, value='span[2]').text
-            self.category_value_list.append(category_value)
-              
+            for text in div_tags:
+                category_heading = text.find_element(by=By.XPATH, value='span[1]').text
+                self.category_heading_list.append(category_heading)
+                category_value = text.find_element(by=By.XPATH, value='span[2]').text
+                self.category_value_list.append(category_value)
+
+        return self.category_heading_list, self.category_value_list
+
+    def create_text_dictionary(self):
+        self.scrape_text_data_from_movie_links()
         text_dictionary = dict(zip(self.category_heading_list, self.category_value_list))
         return text_dictionary
         
@@ -185,7 +190,7 @@ class Data_scraper(Web_link_scraper):
             movie_name = div_tag.find_element(by=By.XPATH, value='h1[@class="a-size-extra-large"]').text
             self.create_timestamp_for_web_scrape()
             image_link = self.scrape_image_data()
-            image_and_text_dictionary = self.scrape_text_data_from_movie_links()
+            image_and_text_dictionary = self.create_text_dictionary()
             image_and_text_dictionary.update({'image_link':image_link})
             self.movie_dictionary.update({movie_name:image_and_text_dictionary})  
         self.create_directories_and_download_movie_dict()     
