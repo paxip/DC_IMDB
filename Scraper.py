@@ -4,6 +4,7 @@ from selenium.webdriver.common. by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait, Select
+from typing import Any
 import time
 import datetime
 import json
@@ -11,38 +12,8 @@ import os
 import requests
 
 
-class Web_link_scraper:
-    '''
-    This class scrapes a list of links from the IMDB website for a list of years that you specify and 
-    creates a list of movie links.
-    
-    Attributes:
-    ----------
-    service : class
-        Manages the starting and stopping of the ChromeDriver.
-    options : class
-        Used to create an instance of the chrome driver.
-    driver : object
-        Gets the url.
-    movie_link_list : list
-        Creates a list of web elements corresponding to each movie from the IMDB website.
-    category_heading_list : list
-        Creates a list of all the column headings from the table of information for each movie link.
-    '''        
+class Web_link_scraper:    
     def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/Applications/chromedriver'):     
-        '''
-        The function initialises the class and takes in a url and a driverpath. 
-        The options and service object creates a driver object that is used to get the url.
-        The function sleeps for 3 seconds to allow the webpage to fully load.
-        
-        Parameters
-        ----------
-        url : str, optional
-            The url of the website you want to scrape.
-        driverpath : str, optional
-            This is the path to the chromedriver executable.
-        
-        '''
         self.service = Service(driverpath)
         self.options = Options()
         self.driver = webdriver.Chrome(options=self.options, service=self.service) 
@@ -53,40 +24,18 @@ class Web_link_scraper:
         time.sleep(3)
 
     def click_monthly_button(self):
-        '''
-        The function clicks the monthly button on the web home page.
-
-        '''
         domestic_container = self.driver.find_element(by=By.XPATH, value='//*[@id="a-page"]/div[2]/div[4]/div') 
         monthly_button = domestic_container.find_element(by=By.XPATH, value='//*[@id="a-page"]/div[2]/div[4]/div/a[4]') 
         monthly_button.click()
         time.sleep(3)
 
     def select_year_from_scroll_down_menu(self):
-        '''
-        The function selects the year from the drop down menu.
-        
-        '''
         drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
         select = Select(drop_down_list)
         select.select_by_visible_text('By year')
         time.sleep(3)
 
     def create_list_of_movie_links(self, year_list):    
-        '''
-        This function takes a list of years as an argument, and then loops through each 
-        year to get a list of web links corresponding to each movie.
-        
-        Parameters
-        ----------
-        year_list
-            a list of years that you want to scrape
-        
-        Returns
-        -------
-            A list of movie links.
-        
-        '''
         self.select_year_from_scroll_down_menu()
         for year in (year_list): 
             drop_down_by_year = self.driver.find_element(by=By.XPATH, value='//select[@id="by-year-navSelector"]')
@@ -100,167 +49,100 @@ class Web_link_scraper:
                 a_tag = movie.find_element(by=By.TAG_NAME, value='a')
                 link = a_tag.get_attribute('href')
                 self.movie_link_list.append(link)
-        return(self.movie_link_list)    
+        # print(self.movie_link_list)
+        # print(len(self.movie_link_list))
+        return self.movie_link_list  
 
 
-class Data_scraper(Web_link_scraper):                                                                               
-    '''
-    This class inherits the Web_link_scraper and iterates through each web link in the movie_link_list 
-    scraping relevant data corresponding to each movie.
-
-    Attributes:
-    ----------
-    
-    This is a child class and inherits all attributes in the Web_link scraper class in addition
-    to the attributes listed below.
-    
-    text_data_dictionary : dict
-        Dictionary containing text data for each movie.
-
-    movie_dictionary : dict
-        Dictionary containing all data corresponding to each movie.
-
-    timestamp : int
-        Provides date and time that each movie link is scraped in the format: :%Y-%m-%d %H:%M:%S.  
-    '''
+class Data_scraper(Web_link_scraper):                                                                              
     def __init__(self):
-        '''
-        This function initializes the class by creating a dictionary for the text data, a dictionary for
-        the movie data, and a timestamp.   
-        '''
         super().__init__()
-        self.text_data_dictionary = {}
+        self.image_and_text_dictionary = {}
         self.movie_dictionary = {}
         self.timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+        self.file_path = os.path.join('raw_data', 'box_office_mojo')
 
     def scrape_text_data_from_movie_links(self):
-        '''
-        This function scrapes text data from the table of values presented on each web page (movie_link) 
-        and forms two lists; category headings and corresponding values. 
-        The zip object passes both lists and yields tuples stored to text_dictionary. 
-        
-        Returns
-        -------
-            A dictionary of the movie's text data.
-        
-        '''
-        for link in (self.movie_link_list[0:3]):
-            summary_table = self.driver.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
-            summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-summary-values mojo-hidden-from-mobile"]')
-            div_tags = summary_values.find_elements(by=By.XPATH, value='./div[@class="a-section a-spacing-none"]')
-            performance_summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
-            worldwide_values = performance_summary_values.find_element(by=By.XPATH, value='//div[3][@class="a-section a-spacing-none"]')
-            
-            worldwide_gross = worldwide_values.find_element(by=By.XPATH, value='span[1]/a').text
-            self.category_heading_list.append(worldwide_gross)
-            international_gross = worldwide_values.find_element(by=By.XPATH, value='span[2]/a/span').text
-            self.category_value_list.append(international_gross)
-            
-            for text in div_tags:
-                category_heading = text.find_element(by=By.XPATH, value='span[1]').text
-                self.category_heading_list.append(category_heading)
-                category_value = text.find_element(by=By.XPATH, value='span[2]').text
-                self.category_value_list.append(category_value)
+        summary_table = self.driver.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
+        summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-summary-values mojo-hidden-from-mobile"]')
+        div_tags = summary_values.find_elements(by=By.XPATH, value='./div[@class="a-section a-spacing-none"]')
+        performance_summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
+        worldwide_values = performance_summary_values.find_element(by=By.XPATH, value='//div[3][@class="a-section a-spacing-none"]')
+        worldwide_gross = worldwide_values.find_element(by=By.XPATH, value='span[1]/a').text
+        self.category_heading_list.append(worldwide_gross)
+        international_gross = worldwide_values.find_element(by=By.XPATH, value='span[2]/a/span').text
+        self.category_value_list.append(international_gross)        
 
-        return self.category_heading_list, self.category_value_list
-
-    def create_text_dictionary(self):
-        self.scrape_text_data_from_movie_links()
+        for text in div_tags:
+            category_heading = text.find_element(by=By.XPATH, value='span[1]').text
+            self.category_heading_list.append(category_heading)
+            category_value = text.find_element(by=By.XPATH, value='span[2]').text
+            self.category_value_list.append(category_value)
+              
         text_dictionary = dict(zip(self.category_heading_list, self.category_value_list))
+        #print(text_dictionary)
         return text_dictionary
         
-    def scrape_movie_name_and_create_movie_dict(self):
-        '''
-        This function iterates through each web link stored in the movie_link_list and calls 
-        relevant functions to: 
-        (ii)    scrape all text data,
-        (iii)   scrape image data,
-        (iv)    record the timestamp for each scrape.
-        The above data is stored in the image_and_text_dictionary.
-
-        The movie-dictionary is created to organise and store all relevant data according 
-        to each movie's name (serving as a unique id).  
-
-        All images in the movie_dictionary are downloaded in order to a directory for preservation.
-        '''
+    def create_movie_dictionary(self):
         for link in (self.movie_link_list[0:3]):
             self.driver.get(link)
-            time.sleep(2)
+            time.sleep(4)
             div_tag = self.driver.find_element(by=By.XPATH, value='//div[@class="a-fixed-left-grid-col a-col-right"]')
-            movie_name = div_tag.find_element(by=By.XPATH, value='h1[@class="a-size-extra-large"]').text
+            movie_name = div_tag.find_element(by=By.XPATH, value='h1[@class="a-size-extra-large"]').text      
             self.create_timestamp_for_web_scrape()
             image_link = self.scrape_image_data()
-            image_and_text_dictionary = self.create_text_dictionary()
-            image_and_text_dictionary.update({'image_link':image_link})
-            self.movie_dictionary.update({movie_name:image_and_text_dictionary})  
-        self.create_directories_and_download_movie_dict()     
-
-        for n, movie in enumerate(self.movie_dictionary.values(),1):
-            timestr = self.timestamp
-            self.download_image(movie['image_link'], f'raw_data/box_office_mojo/images/{timestr}_{n}.jpg')   
-        
-        self.driver.quit()
-    
+            self.image_and_text_dictionary = self.scrape_text_data_from_movie_links()
+            self.image_and_text_dictionary.update({'image_link':image_link})
+            self.movie_dictionary.update({movie_name:self.image_and_text_dictionary})
+        return self.movie_dictionary
+            
     def create_timestamp_for_web_scrape(self):      
-        '''
-        This function creates a timestamp for the web scrape. 
-
-        '''
         time_key = 'timestamp'
         self.category_heading_list.append(time_key)
         self.category_value_list.append(self.timestamp)
 
     def scrape_image_data(self):
-        '''
-        The function scrapes the image data from the IMDB website.
-        
-        Returns
-        -------
-            The image source is being returned.
-        
-        '''
         image_results = self.driver.find_element(By.XPATH, value = '//*[@class="a-section a-spacing-none mojo-posters"]')
         img_tag = image_results.find_element(by=By.TAG_NAME, value='img')
         src = img_tag.get_attribute('src')
         return src   
+             
+    def create_directories(self):
+        os.mkdir('raw_data')
+        os.mkdir(self.file_path)
+        
+    def save_to_json(self, file_path: str, object_to_save: Any, indent: int):
+        try:
+            with open(os.path.join(self.file_path, 'data.json'), "w") as outfile:
+                json.dump(self.movie_dictionary, outfile, indent=indent)
+            return True
+        
+        except Exception as e:
+            print(e)
+            return False
 
+    def create_image_directory(self):
+        image_path = 'raw_data/box_office_mojo/images'
+        os.mkdir(image_path)
+        for n, movie in enumerate(self.movie_dictionary.values(),1):
+                timestr = self.timestamp
+                self.download_image(movie['image_link'], f'raw_data/box_office_mojo/images/{timestr}_{n}.jpg')     
+    
     def download_image(self, image_url, fp):
-        '''
-        Downloads an image from a URL and saves it to a file path.
-        
-        Parameters
-        ----------
-        image_url
-            The URL of the image you want to download.
-        fp
-            file path
-        
-        '''
         image_data = requests.get(image_url, fp).content
         with open(fp, 'wb') as handler:
             handler.write(image_data)
+        
 
-    def create_directories_and_download_movie_dict(self):
-        '''
-        Creates a subdirectory called 'box_office_mojo'
-        and writes movie_dictionary to it in JSON format. 
-        Downloaded images are stored in a seperate directory under 'box_office_mojo' called 'images.'    
-        Above is stored under the main directory: 'raw_data.'
-        '''
-        os.mkdir('raw_data')
-        path = os.path.join('raw_data', 'box_office_mojo')
-        os.mkdir(path)
-        with open(os.path.join(path, 'data.json'), 'w') as f:
-            json.dump(self.movie_dictionary, f)
-        image_path = 'raw_data/box_office_mojo/images'
-        os.mkdir(image_path)
     
     
-
 if __name__ == '__main__':
     year_list = ['2017', '2018']
     imdb = Data_scraper()
     imdb.click_monthly_button()
     imdb.create_list_of_movie_links(year_list)
-    imdb.scrape_movie_name_and_create_movie_dict()
+    imdb.create_movie_dictionary()
+    imdb.create_directories()
+    imdb.create_image_directory()
+    imdb.save_to_json(str, Any, 4)
     
