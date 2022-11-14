@@ -23,20 +23,20 @@ class Web_link_scraper:
         self.category_value_list = []
         time.sleep(3)
 
-    def click_monthly_button(self):
+    def _click_monthly_button(self):
         domestic_container = self.driver.find_element(by=By.XPATH, value='//*[@id="a-page"]/div[2]/div[4]/div') 
         monthly_button = domestic_container.find_element(by=By.XPATH, value='//*[@id="a-page"]/div[2]/div[4]/div/a[4]') 
         monthly_button.click()
         time.sleep(3)
 
-    def select_year_from_scroll_down_menu(self):
+    def _select_year_from_scroll_down_menu(self):
         drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
         select = Select(drop_down_list)
         select.select_by_visible_text('By year')
         time.sleep(3)
 
-    def create_list_of_movie_links(self, year_list):    
-        self.select_year_from_scroll_down_menu()
+    def _create_list_of_movie_links(self, year_list):    
+        self._select_year_from_scroll_down_menu()
         for year in (year_list): 
             drop_down_by_year = self.driver.find_element(by=By.XPATH, value='//select[@id="by-year-navSelector"]')
             select = Select(drop_down_by_year)

@@ -21,7 +21,7 @@ class Data_scraper(Web_link_scraper):
         self.timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
         self.file_path = os.path.join('raw_data', 'box_office_mojo')
 
-    def scrape_text_data_from_movie_links(self):
+    def __scrape_text_data_from_movie_links(self):
         summary_table = self.driver.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-gutter mojo-summary-table"]')
         summary_values = summary_table.find_element(by=By.XPATH, value='//div[@class="a-section a-spacing-none mojo-summary-values mojo-hidden-from-mobile"]')
         div_tags = summary_values.find_elements(by=By.XPATH, value='./div[@class="a-section a-spacing-none"]')
@@ -48,19 +48,19 @@ class Data_scraper(Web_link_scraper):
             time.sleep(4)
             div_tag = self.driver.find_element(by=By.XPATH, value='//div[@class="a-fixed-left-grid-col a-col-right"]')
             movie_name = div_tag.find_element(by=By.XPATH, value='h1[@class="a-size-extra-large"]').text      
-            self.create_timestamp_for_web_scrape()
-            image_link = self.scrape_image_data()
-            self.image_and_text_dictionary = self.scrape_text_data_from_movie_links()
+            self.__create_timestamp_for_web_scrape()
+            image_link = self.__scrape_image_data()
+            self.image_and_text_dictionary = self.__scrape_text_data_from_movie_links()
             self.image_and_text_dictionary.update({'image_link':image_link})
             self.movie_dictionary.update({movie_name:self.image_and_text_dictionary})
         return self.movie_dictionary
             
-    def create_timestamp_for_web_scrape(self):      
+    def __create_timestamp_for_web_scrape(self):      
         time_key = 'timestamp'
         self.category_heading_list.append(time_key)
         self.category_value_list.append(self.timestamp)
 
-    def scrape_image_data(self):
+    def __scrape_image_data(self):
         image_results = self.driver.find_element(By.XPATH, value = '//*[@class="a-section a-spacing-none mojo-posters"]')
         img_tag = image_results.find_element(by=By.TAG_NAME, value='img')
         src = img_tag.get_attribute('src')
@@ -96,8 +96,8 @@ class Data_scraper(Web_link_scraper):
 if __name__ == '__main__':
     year_list = ['2017', '2018']
     imdb = Data_scraper()
-    imdb.click_monthly_button()
-    imdb.create_list_of_movie_links(year_list)
+    imdb._click_monthly_button()
+    imdb._create_list_of_movie_links(year_list)
     imdb.create_movie_dictionary()
     imdb.create_directories()
     imdb.create_image_directory()
