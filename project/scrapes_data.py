@@ -2,15 +2,15 @@
 from creates_list_of_movie_web_links import Web_link_scraper
 from selenium import webdriver
 from selenium.webdriver.common. by import By
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from typing import Any
-import time
 import datetime
 import json
 import os
 import requests
+import time
 
 
 class Data_scraper(Web_link_scraper):                                                                              

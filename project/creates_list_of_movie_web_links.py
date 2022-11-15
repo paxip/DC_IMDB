@@ -1,15 +1,15 @@
 
 from selenium import webdriver
 from selenium.webdriver.common. by import By
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from typing import Any
-import time
 import datetime
 import json
 import os
 import requests
+import time
 
 
 class Web_link_scraper:    
