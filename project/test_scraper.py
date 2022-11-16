@@ -1,6 +1,6 @@
 
-from creates_list_of_movie_web_links import Web_link_scraper
-from scrapes_data import Data_scraper
+from project.creates_list_of_movie_web_links import Web_link_scraper
+from project.scrapes_data import Data_scraper
 from typing import Any
 import json
 import unittest
@@ -57,6 +57,7 @@ class WebLinkScraperTestCase(unittest.TestCase):
         
         
 unittest.main(argv=[''], verbosity=3, exit=False)
+
 
 
 
