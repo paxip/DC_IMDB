@@ -43,67 +43,102 @@ class Web_link_scraper:
         driverpath : str, optional
             This is the path to the chromedriver executable.
         
-        '''    
+        '''   
+        user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+
         self.service = Service(driverpath)
-        self.options = Options()
+        self.options = webdriver.ChromeOptions()
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.add_argument(f'user-agent={user_agent}')
+        self.options.add_argument("--window-size=1920,1080")
+        self.options.add_argument('--ignore-certificate-errors')
+        self.options.add_argument('--allow-running-insecure-content')
+        self.options.add_argument("--disable-extensions")
+        self.options.add_argument("--proxy-server='direct://'")
+        self.options.add_argument("--proxy-bypass-list=*")
+        self.options.add_argument("--start-maximized")
+        self.options.add_argument('--disable-gpu')
+        self.options.add_argument('--disable-dev-shm-usage')
+        self.options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome(options=self.options, service=self.service) 
+        
+        # self.driver = webdriver.Chrome(executable_path="/Applications/chromedriver", options=self.options) 
+        
+
         self.driver.get(url)
-        self.movie_link_list = []
-        self.category_heading_list = []
-        self.category_value_list = []
-        time.sleep(3)
+        self.driver.get_screenshot_as_file("screenshot.png")
+        print(self.driver.title)
 
-    def _click_monthly_button(self, xpath_button='//*[@id="a-page"]/div[2]/div[4]/div/a[4]' ):
-        '''
-        The function clicks the monthly button on the web home page.
+Web_link_scraper()
 
-        '''
-        monthly_button = self.driver.find_element(by=By.XPATH, value=xpath_button) 
-        monthly_button.click()
-        time.sleep(3)
+        # Original init method
+    # def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/Applications/chromedriver'): 
+    #     self.service = Service(driverpath)
+    #     self.options = Options()
+    #     self.driver = webdriver.Chrome(options=self.options, service=self.service) 
+    #     self.driver.get(url)
+    #     self.movie_link_list = []
+    #     self.category_heading_list = []
+    #     self.category_value_list = []
+    #     time.sleep(3)
 
-    def _select_year_from_scroll_down_menu(self):
-        '''
-        The function selects the year from the drop down menu.
+#     def _click_monthly_button(self, xpath_button='//*[@id="a-page"]/div[2]/div[4]/div/a[4]' ):
+#         '''
+#         The function clicks the monthly button on the web home page.
+
+#         '''
+#         monthly_button = self.driver.find_element(by=By.XPATH, value=xpath_button) 
+#         monthly_button.click()
+#         time.sleep(3)
+
+#     def _select_year_from_scroll_down_menu(self):
+#         '''
+#         The function selects the year from the drop down menu.
         
-        '''
-        drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
-        select = Select(drop_down_list)
-        select.select_by_visible_text('By year')
-        time.sleep(3)
+#         '''
+#         drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
+#         select = Select(drop_down_list)
+#         select.select_by_visible_text('By year')
+#         time.sleep(3)
 
-    def _create_list_of_movie_links(self, year_list):
-        '''
-        This function takes a list of years as an argument, and then loops through each 
-        year to get a list of web links corresponding to each movie.
+#     def _create_list_of_movie_links(self, year_list):
+#         '''
+#         This function takes a list of years as an argument, and then loops through each 
+#         year to get a list of web links corresponding to each movie.
         
-        Parameters
-        ----------
-        year_list
-            a list of years that you want to scrape
+#         Parameters
+#         ----------
+#         year_list
+#             a list of years that you want to scrape
         
-        Returns
-        -------
-            A list of movie links.
+#         Returns
+#         -------
+#             A list of movie links.
         
-        '''    
-        self._select_year_from_scroll_down_menu()
-        for year in (year_list): 
-            drop_down_by_year = self.driver.find_element(by=By.XPATH, value='//select[@id="by-year-navSelector"]')
-            select = Select(drop_down_by_year)
-            select.select_by_visible_text(year)
-            time.sleep(3)
+#         '''    
+#         self._select_year_from_scroll_down_menu()
+#         for year in (year_list): 
+#             drop_down_by_year = self.driver.find_element(by=By.XPATH, value='//select[@id="by-year-navSelector"]')
+#             select = Select(drop_down_by_year)
+#             select.select_by_visible_text(year)
+#             time.sleep(3)
 
-            movie_table = self.driver.find_element(by=By.XPATH, value='//*[@id="table"]/div/table[2]/tbody')
-            movie_list = movie_table.find_elements(by=By.XPATH, value='//*[@class="a-text-left mojo-field-type-release mojo-cell-wide"]')
-            for movie in movie_list:
-                a_tag = movie.find_element(by=By.TAG_NAME, value='a')
-                link = a_tag.get_attribute('href')
-                self.movie_link_list.append(link)
-        # print(self.movie_link_list)
-        # print(len(self.movie_link_list))
-        return self.movie_link_list  
+#             movie_table = self.driver.find_element(by=By.XPATH, value='//*[@id="table"]/div/table[2]/tbody')
+#             movie_list = movie_table.find_elements(by=By.XPATH, value='//*[@class="a-text-left mojo-field-type-release mojo-cell-wide"]')
+#             for movie in movie_list:
+#                 a_tag = movie.find_element(by=By.TAG_NAME, value='a')
+#                 link = a_tag.get_attribute('href')
+#                 self.movie_link_list.append(link)
+#         # print(self.movie_link_list)
+#         # print(len(self.movie_link_list))
+#         return self.movie_link_list  
 
 
-if __name__ == '__main__':
-    year_list = ['2017', '2018']
+# if __name__ == '__main__':
+#     year_list = ['2017', '2018']
