@@ -148,27 +148,26 @@ class Data_scraper(Web_link_scraper):
             return False
   
 
-    def create_image_directory(self):
+    def create_image_directory(self, image_path='raw_data/box_office_mojo/images'):
         '''
         This function creates a directory called 'images' in the 'raw_data/box_office_mojo' directory,
         and then downloads the movie poster image for each movie in the movie dictionary and saves it in
         the 'images' directory
         '''        
-        image_path = 'raw_data/box_office_mojo/images'
         os.mkdir(image_path)
         for n, movie in enumerate(self.movie_dictionary.values(),1):
                 timestr = self.timestamp
                 self.download_image(movie['image_link'], f'raw_data/box_office_mojo/images/{timestr}_{n}.jpg')     
     
-    def download_image(self, image_url, fp):
+    def download_image(self, image_url: str, fp: str):
         '''
         Downloads the image from the url and saves it to the file path
         
         Parameters
         ----------
-        image_url
+        image_url: str
             The URL of the image to download.
-        fp
+        fp: str
             file path
         
         '''
