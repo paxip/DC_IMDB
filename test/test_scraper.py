@@ -7,8 +7,6 @@ import unittest
 
 class WebLinkScraperTestCase(unittest.TestCase):
     def setUp(self):
-        # self.web_scraper = Web_link_scraper()
-        # self.data_scraper = Data_scraper()
         self.year_list = ['2017', '2018']
                
     def test_create_list_of_movie_links(self):
@@ -50,11 +48,7 @@ class WebLinkScraperTestCase(unittest.TestCase):
         data_scraper.create_directories()
         json_file = data_scraper.save_to_json(str, Any, 4)
         self.assertTrue(json_file)
-
-    # def tearDown(self):
-    #     del self.web_scraper 
-    #     del self.data_scraper 
-        
+      
         
 unittest.main(argv=[''], verbosity=3, exit=False)
 

@@ -33,7 +33,7 @@ class Web_link_scraper:
     def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/Applications/chromedriver'): 
         '''
         The function initialises the class and takes in a url and a driverpath. 
-        The options and service object creates a driver object that is used to get the url.
+        The options and service object creates a driver object that is used to get the url in headless mode.
         The function sleeps for 3 seconds to allow the webpage to fully load.
         
         Parameters
@@ -72,23 +72,6 @@ class Web_link_scraper:
         self.category_heading_list = []
         self.category_value_list = []
         time.sleep(3)
-
-
-        # self.driver.get_screenshot_as_file("screenshot.png")
-        # print(self.driver.title)
-
-
-
-        # Original init method
-    # def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/Applications/chromedriver'): 
-    #     self.service = Service(driverpath)
-    #     self.options = Options()
-    #     self.driver = webdriver.Chrome(options=self.options, service=self.service) 
-    #     self.driver.get(url)
-    #     self.movie_link_list = []
-    #     self.category_heading_list = []
-    #     self.category_value_list = []
-    #     time.sleep(3)
 
     def _click_monthly_button(self, xpath_button='//*[@id="a-page"]/div[2]/div[4]/div/a[4]' ):
         '''
