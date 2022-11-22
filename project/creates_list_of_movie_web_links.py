@@ -120,8 +120,7 @@ class Web_link_scraper:
                 a_tag = movie.find_element(by=By.TAG_NAME, value='a')
                 link = a_tag.get_attribute('href')
                 self.movie_link_list.append(link)
-        # print(self.movie_link_list)
-        # print(len(self.movie_link_list))
+       
         return self.movie_link_list  
 
 
