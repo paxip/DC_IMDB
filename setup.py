@@ -10,5 +10,5 @@ setup(
     author='Isha Paik', 
     license='MIT',
     packages=find_packages(), 
-    install_requires=['requests', 'selenium', 'typing', ], 
+    install_requires=['requests', 'selenium', 'typing' ], 
 )
