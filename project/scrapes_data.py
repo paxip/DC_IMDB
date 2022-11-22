@@ -132,11 +132,12 @@ class Data_scraper(Web_link_scraper):
             os.mkdir('raw_data')
             os.mkdir(self.file_path)            
             self.create_image_directory()
+            print('images downloaded.')
             self.save_to_json(str, Any, 4)
             
             
         else:
-            print('raw_data directory already exists')
+            print('raw_data directory already exists.')
             self.driver.quit
         
     def save_to_json(self, file_path: str, object_to_save: Any, indent: int):
@@ -149,6 +150,7 @@ class Data_scraper(Web_link_scraper):
         try:
             with open(os.path.join(self.file_path, 'data.json'), "w") as outfile:
                 json.dump(self.movie_dictionary, outfile, indent=indent)
+                print('json file created.')
             return True
         
         except Exception as e:

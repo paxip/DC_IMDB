@@ -9,4 +9,6 @@ if __name__ == '__main__':
     imdb._create_list_of_movie_links(year_list)
     print('list of movie web links has been created.')
     imdb.create_movie_dictionary()
+    print('movie_dictionary has been created.')
     imdb.create_directories()
+    
