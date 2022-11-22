@@ -18,4 +18,4 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Run application
-CMD ["python", "scraper/celebrity_scraper.py"]
+CMD ["python", "project/__main__.py"]
