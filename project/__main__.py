@@ -7,6 +7,7 @@ if __name__ == '__main__':
     imdb = Data_scraper()
     imdb._click_monthly_button()
     imdb._create_list_of_movie_links(year_list)
+    print('list of movie web links has been created.')
     imdb.create_movie_dictionary()
     imdb.create_directories()
     imdb.create_image_directory()
