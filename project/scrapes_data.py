@@ -128,8 +128,16 @@ class Data_scraper(Web_link_scraper):
         to creates a subdirectory called 'box_office_mojo.'
 
         '''
-        os.mkdir('raw_data')
-        os.mkdir(self.file_path)
+        if not os.path.exists('raw_data'):
+            os.mkdir('raw_data')
+            os.mkdir(self.file_path)            
+            self.create_image_directory()
+            self.save_to_json(str, Any, 4)
+            
+            
+        else:
+            print('raw_data directory already exists')
+            self.driver.quit
         
     def save_to_json(self, file_path: str, object_to_save: Any, indent: int):
         '''
@@ -183,5 +191,3 @@ if __name__ == '__main__':
     imdb._create_list_of_movie_links(year_list)
     imdb.create_movie_dictionary()
     imdb.create_directories()
-    imdb.create_image_directory()
-    imdb.save_to_json(str, Any, 4)
