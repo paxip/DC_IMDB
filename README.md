@@ -5,7 +5,7 @@ An implementation of an industry grade data collection pipeline that runs scalab
 - Source code built using Visual Studio Code.
 - GitHub respository created for version control and to track lineage of code over time.
 - Virtual environment created and third-party package called 'Selenium' installed. Creating a virtual environment ensures that the project will always run with the version of any third-party packages that were installed and tested with my code. 
-- Selinium is a tool for programmatically controlling a browser and can drive a web browser once a webdriver is installed.
+- Selenium is a tool for programmatically controlling a browser and can drive a web browser once a webdriver is installed.
 - Installed Chromedriver: a webdriver used for Google Chrome Version 105.0.5195.125.
 
 ## Milestone 2: Selecting website
@@ -25,6 +25,15 @@ Key developments included:
 
 
 ## Milestone 4: Retrieve data from details page.
+
+
+
+
+## Milestone 7: Retrieve data from details page.
+
+
+
+
 
 
 
