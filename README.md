@@ -29,6 +29,7 @@ drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view
 select = Select(drop_down_list)
 select.select_by_visible_text('By year')
 time.sleep(3)
+```
 
    
 - The class is designed for the user to choose which years they want to scrape movie data for as an instance of the class. 
