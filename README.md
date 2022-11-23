@@ -24,11 +24,12 @@ Key developments included:
 - Importing'Services' and 'Option' classes from the selenium.webdriver.common. module and using these to create a   driver object to manipulate the url.
 - Using the find_element method to locate web elements from the url and navigate through the website. However, the 'Select' class in selenium was required to navigate the dropdown menus. The snippet of code below demonstrates how to use the 'select_by_visible_text' method:
 
-"""drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
-        select = Select(drop_down_list)
-        select.select_by_visible_text('By year')
-        time.sleep(3)
-"""
+```ruby
+drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
+select = Select(drop_down_list)
+select.select_by_visible_text('By year')
+time.sleep(3)
+
    
 - The class is designed for the user to choose which years they want to scrape movie data for as an instance of the class. 
 
