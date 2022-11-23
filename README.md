@@ -19,7 +19,20 @@ Being a movie lover my curiosity led me to investigate the impact of the covid-1
 The focus of this milestone was to find links of the web pages on the https://www.boxofficemojo.com/ website that contain data to be scraped.
 
 Key developments included:
-- Building code using Selenium/chromedriver to get the webpage, navigate to webpage that contains a table organising box office hits for each month of every year from the years 1931 to 2022.
+- Building a class called Web_Scraper that includes all the methods used for scraping box_office_mojo. 
+- Creating a driverpath to store the latest chromedriver locally.
+- Importing'Services' and 'Option' classes from the selenium.webdriver.common. module and using these to create a   driver object to manipulate the url.
+- Using the find_element method to locate web elements from the url and navigate through the website. However, the 'Select' class in selenium was required to navigate the dropdown menus. The snippet of code below demonstrates how to use the 'select_by_visible_text' method:
+
+"""drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view-navSelector"]') 
+   select = Select(drop_down_list)
+   select.select_by_visible_text('By year')
+   time.sleep(3)"""
+   
+- The class is designed for the user to choose which years they want to scrape movie data for as an instance of the class. 
+
+
+code using Selenium/chromedriver to get the webpage, navigate to webpage that contains a table organising box office hits for each month of every year from the years 1931 to 2022.
 - Collecting the web links to all monthly box office hits from the years 2017 to 2022 and storing these links in a library. 
 - Refactoring the code once it was optimised in a class called 'Scraper' and initialising the class using the conditional statement: 'if __name == "__main__"' so that the code will only run directly from the file.
 
