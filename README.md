@@ -29,15 +29,10 @@ drop_down_list = self.driver.find_element(by=By.XPATH, value='//select[@id="view
 select = Select(drop_down_list)
 select.select_by_visible_text('By year')
 time.sleep(3)
-```
-
-   
+```   
 - The class is designed for the user to choose which years they want to scrape movie data for as an instance of the class. 
+- Seperate method created that takes a list of years as as an arguement and then iterates through each year to return a list of web links corresponding to each box office. 
 
-
-code using Selenium/chromedriver to get the webpage, navigate to webpage that contains a table organising box office hits for each month of every year from the years 1931 to 2022.
-- Collecting the web links to all monthly box office hits from the years 2017 to 2022 and storing these links in a library. 
-- Refactoring the code once it was optimised in a class called 'Scraper' and initialising the class using the conditional statement: 'if __name == "__main__"' so that the code will only run directly from the file.
 
 
 ## Milestone 4: Retrieve data from details page.
