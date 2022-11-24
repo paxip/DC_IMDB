@@ -44,7 +44,15 @@ Ideally, methods should avoid nested loops however in this isolated situation it
 
 ## Milestone 5: Documentation and testing.
 - Refactored code to incorporate class inheritance and privatised methods that were called within the same class. Added additional return statements for the purpose of testing. 
-- Imported the 'unittest' module to form the basis of my test suite. It was essential to build an integration test to ensure that both classes are concurrent.
+- Imported the 'unittest' module to form the basis of my test suite. It was essential to build an integration test to ensure that both classes run concurrently. The following snippet of code shows one of the integration tests I incorporated: 
+```ruby
+def test_first_link_of_list(self):
+        data_scraper = Data_scraper()
+        data_scraper._click_monthly_button()
+        link_list = data_scraper._create_list_of_movie_links(self.year_list)
+        self.assertEqual(link_list[0], 'https://www.boxofficemojo.com/release/rl2708702721/?ref_=bo_my_table_1')
+```   
+
 - Restructured project directories and files for the purpose of testing, designing, developing and mantaining the program. 
 
 
