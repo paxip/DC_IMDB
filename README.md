@@ -52,15 +52,42 @@ def test_first_link_of_list(self):
         link_list = data_scraper._create_list_of_movie_links(self.year_list)
         self.assertEqual(link_list[0], 'https://www.boxofficemojo.com/release/rl2708702721/?ref_=bo_my_table_1')
 ```   
-
-- Restructured project directories and files for the purpose of testing, designing, developing and mantaining the program. 
-
-
+(Logic: The parent class creates a list object with index [0] being the first box office movie in 2017. If the code is running correctly then the child class will inherit the list object and return the same link).
+- Restructured project directories and files for the purpose of testing, designing, developing and mantaining the program.
 
 
+## Milestone 6 & 7: Setting up a CI/CD pipeline for your Docker image.
+- Refactored the __init__ method of the parent class to run the scrapers in headless mode, this is required for the program to run within a Docker container and can be achieved using the 'Option' class of Selenium. I found this youtube tutorial helpful: https://www.youtube.com/watch?v=LN1a0JoKlX8. All credit goes to Rajsuthan Official. Note that some of the code has depracated so I include my code here for anyone that may find it useful:
 
+```ruby
+def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/Applications/chromedriver'):   
+        user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 
-## Milestone 7: Retrieve data from details page.
+        self.service = Service(driverpath)
+        self.options = webdriver.ChromeOptions()
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.headless = True
+        self.options.add_argument(f'user-agent={user_agent}')
+        self.options.add_argument("--window-size=1920,1080")
+        self.options.add_argument('--ignore-certificate-errors')
+        self.options.add_argument('--allow-running-insecure-content')
+        self.options.add_argument("--disable-extensions")
+        self.options.add_argument("--proxy-server='direct://'")
+        self.options.add_argument("--proxy-bypass-list=*")
+        self.options.add_argument("--start-maximized")
+        self.options.add_argument('--disable-gpu')
+        self.options.add_argument('--disable-dev-shm-usage')
+        self.options.add_argument('--no-sandbox')
+        self.driver = webdriver.Chrome(options=self.options, service=self.service) 
+        self.driver.get(url)
+``` 
+
+- 
 
 
 
