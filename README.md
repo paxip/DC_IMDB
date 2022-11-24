@@ -1,5 +1,5 @@
 # Data_Collection_Project 
-An implementation of an industry grade data collection pipeline that runs scalably in the cloud. It uses Python code to automatically control your browser, extract information from a website, and store it on the cloud in a data warehouses and data lake. The system conforms to industry best practices such as being containerised in Docker and running automated tests.
+An implementation of an industry grade data collection pipeline that runs scalably in the cloud. It uses Python code to automatically control the browser, extract information from a website, and store it on the cloud in a data warehouses and data lake. The system conforms to industry best practices such as being containerised in Docker and running automated tests.
 
 ## Milestone 1: Set up the environment
 - Source code built using Visual Studio Code.
@@ -8,13 +8,7 @@ An implementation of an industry grade data collection pipeline that runs scalab
 - Selenium is a tool for programmatically controlling a browser and can drive a web browser once a webdriver is installed.
 - Installed Chromedriver: a webdriver used for Google Chrome Version 105.0.5195.125.
 
-## Milestone 2: Selecting website
-
-- Website selected: https://www.boxofficemojo.com/
-
-Being a movie lover my curiosity led me to investigate the impact of the covid-19 pandemic on the movie box office revenue from years 2017 to 2022. For this project, I chose to explore the international market. While scoping the imdb website I navigated to its affiliate website: box office mojo an American website that tracks box-office revenue and I chose this website to scrape because the data necessary for this project is presented in a systematic fashion.
-
-## Milestone 3: Prototype finding links
+## Milestone 2 & 3: Selecting website and build prototype finding links
 The focus of this milestone was to find links of the web pages on the https://www.boxofficemojo.com/ website that contain data to be scraped.
 
 Key developments included:
