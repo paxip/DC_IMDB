@@ -57,7 +57,7 @@ def test_first_link_of_list(self):
 
 
 ## Milestone 6 & 7: Setting up a CI/CD pipeline for your Docker image.
-- Refactored the __init__ method of the parent class to run the scrapers in headless mode, this is required for the program to run within a Docker container and can be achieved using the 'Option' class of Selenium. I found this youtube tutorial helpful: https://www.youtube.com/watch?v=LN1a0JoKlX8. All credit goes to Rajsuthan Official. Note that some of the code has depracated so I include my code here for anyone that may find it useful:
+- Refactored the __init__ method of the parent class to run the scrapers in headless mode, this is required for the program to run within a Docker container and can be achieved using the 'Option' class of Selenium. I found this youtube tutorial helpful: https://www.youtube.com/watch?v=LN1a0JoKlX8. All credit goes to Rajsuthan Official. Note that some of the code has deprecated so I include mine here for anyone that may find it useful:
 
 ```ruby
 def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/Applications/chromedriver'):   
@@ -86,13 +86,8 @@ def __init__(self, url: str="https://www.boxofficemojo.com/", driverpath: str='/
         self.driver = webdriver.Chrome(options=self.options, service=self.service) 
         self.driver.get(url)
 ``` 
-
-- 
-
-
-
-
-
+- Created a dockerhub account and integrated Dockerfile and docker-compose.yaml files into my root directory to build an image that runs the program. 
+- Set up a workflow to create a CI/CD pipeline using GitHub Actions. The workflow builds a Docker image and pushes it to my Dockerhub account when triggered on a push to the main branch of this github repository. 
 
 
 For further details about my code please refer to file: 'Scraper.py' located in this respository. 
